@@ -1,0 +1,136 @@
+local tArgs = {...}
+
+local x = tonumber(tArgs[1]) or error("you have no x specified!",0)
+local y = tonumber(tArgs[2]) or error("you have no y specified!",0)
+local z = tonumber(tArgs[3]) or error("you have no z specified!",0)
+local cx, cy, cz
+
+local function refuel()
+ turtle.refuel()
+end
+
+local function getpos()
+ return gps.locate()
+end
+
+local function getFacing()
+ cx1, cy1, cz1 = getpos()
+ if not turtle.forward() then
+  if not turtle.up() then
+   if not turtle.down() then
+    refuel()
+   end
+  end
+  turtle.forward()
+ end
+ cx2, cy2, cz2 = getpos()
+ if (cx1 - cx2) == 1 then
+  return "WEST"
+ elseif (cx1 - cx2) == -1 then
+  return "EAST"
+ end
+ if (cz1 - cz2) == -1 then
+  return "SOUTH"
+ elseif (cz1 - cz2) == 1 then
+  return "NORTH"
+ end
+end
+
+local function turnRight()
+ if facing == "NORTH" then
+  facing = "EAST"
+  turtle.turnRight()
+ elseif facing == "EAST" then
+  facing = "SOUTH"
+  turtle.turnRight()
+ elseif facing == "SOUTH" then
+  facing = "WEST"
+  turtle.turnRight()
+ elseif facing == "WEST" then
+  facing = "NORTH"
+  turtle.turnRight()
+ end
+end
+
+local function turnLeft()
+ if facing == "NORTH" then
+  facing = "WEST"
+  turtle.turnLeft() 
+ elseif facing == "WEST" then
+  facing = "SOUTH"
+  turtle.turnLeft()
+ elseif facing == "SOUTH" then
+  facing = "EAST"
+  turtle.turnLeft()
+ elseif facing == "EAST" then
+  facing = "NORTH"
+  turtle.turnLeft()
+ end
+end
+
+facing = getFacing()
+print("facing: "..facing)
+while cx ~= x or cy ~= y or cz ~= z do
+ sleep(.1)
+ cx, cy, cz = getpos()
+ if cx > x then
+  if facing == "WEST" then
+   if not turtle.forward() then
+    if not turtle.up() then
+     if not turtle.down() then
+      refuel()
+     end
+    end
+   end
+  else
+   turnLeft()
+  end
+ elseif cx < x then
+  if facing == "EAST" then
+   if not turtle.forward() then
+    if not turtle.up() then
+     if not turtle.down() then
+      refuel()
+     end
+    end
+   end
+  else
+   turnLeft()
+  end
+ end
+ 
+ if cy > y then
+  turtle.down()
+ elseif cy < y then
+  turtle.up()
+ end
+ 
+ if cx == x then
+  if cz > z then
+   if facing == "NORTH" then
+    if not turtle.forward() then
+     if not turtle.up() then
+      if not turtle.down() then
+       refuel()
+      end
+     end
+    end
+   else
+    turnRight()
+   end
+  elseif cz < z then
+   if facing == "SOUTH" then
+    if not turtle.forward() then
+     if not turtle.up() then
+      if not turtle.down() then
+       refuel()
+      end
+     end
+    end
+   else
+    turnRight()
+   end
+  end
+ end
+ cx, cy, cz = getpos()
+end
