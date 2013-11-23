@@ -68,6 +68,36 @@ local function turnLeft()
  end
 end
 
+local function od()
+ if turtle.detect() then
+  if facing == "EAST" then
+   if cz < z then
+    turnRight()
+   else
+    turnLeft()
+   end
+  elseif facing == "WEST" then
+   if cz < z then
+    turnLeft()
+   else
+    turnRight()
+   end
+  elseif facing == "NORTH" then
+   if cx < x then
+    turnRight()
+   else
+    turnLeft()
+   end
+  elseif facing == "SOUTH" then
+   if cx < x then
+    turnLeft()
+   else
+    turnRight()
+   end
+  end
+ end
+end
+
 facing = getFacing()
 print("facing: "..facing)
 while cx ~= x or cy ~= y or cz ~= z do
@@ -75,25 +105,15 @@ while cx ~= x or cy ~= y or cz ~= z do
  cx, cy, cz = getpos()
  if cx > x then
   if facing == "WEST" then
-   if not turtle.forward() then
-    if not turtle.up() then
-     if not turtle.down() then
-      refuel()
-     end
-    end
-   end
+   od()
+   turtle.forward()
   else
    turnLeft()
   end
  elseif cx < x then
   if facing == "EAST" then
-   if not turtle.forward() then
-    if not turtle.up() then
-     if not turtle.down() then
-      refuel()
-     end
-    end
-   end
+   od()
+   turtle.forward()
   else
    turnLeft()
   end
@@ -104,29 +124,19 @@ while cx ~= x or cy ~= y or cz ~= z do
  elseif cy < y then
   turtle.up()
  end
- 
+  
  if cx == x then
   if cz > z then
    if facing == "NORTH" then
-    if not turtle.forward() then
-     if not turtle.up() then
-      if not turtle.down() then
-       refuel()
-      end
-     end
-    end
+    od()
+	turtle.forward()
    else
     turnRight()
    end
   elseif cz < z then
    if facing == "SOUTH" then
-    if not turtle.forward() then
-     if not turtle.up() then
-      if not turtle.down() then
-       refuel()
-      end
-     end
-    end
+    od()
+	turtle.forward()
    else
     turnRight()
    end
