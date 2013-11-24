@@ -1,3 +1,5 @@
+-- goto program for turtle made by: karelmikie3 and thib0704
+
 local tArgs = {...}
 	
 local x = tonumber(tArgs[1]) or error("you have no x specified!",0)
