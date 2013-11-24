@@ -38,7 +38,7 @@ local function getFacing()
 	end
 end
 	
-local	function	turnRight()
+local function turnRight()
 	if facing == "NORTH" then
 		facing = "EAST"
 		turtle.turnRight()
@@ -54,7 +54,7 @@ local	function	turnRight()
 	end
 end
 	
-local	function	turnLeft()
+local function turnLeft()
 	if facing == "NORTH" then
 		facing = "WEST"
 		turtle.turnLeft()
